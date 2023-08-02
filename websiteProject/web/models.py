@@ -1,6 +1,6 @@
 from django.core.validators import MinLengthValidator
 from django.db import models
-from validators import TextAndNumsOnlyValidator
+from websiteProject.web.validators import TextAndNumsOnlyValidator
 from websiteProject.web.genres import genre_choices
 
 
@@ -31,5 +31,3 @@ class Book(models.Model):
     )
     synopsis = models.TextField(blank=True, null=True,)
     cover_url = models.URLField(blank=False, null=False)
-
-

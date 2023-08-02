@@ -21,7 +21,8 @@ from websiteProject.web import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('websiteProject.web.urls')),
+
+    path('', include('websiteProject.web.urls')),
 
 
 ]

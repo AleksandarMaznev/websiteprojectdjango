@@ -1,8 +1,10 @@
 import re
 
 from django.core.exceptions import ValidationError
+from django.utils.deconstruct import deconstructible
 
 
+@deconstructible
 class TextAndNumsOnlyValidator:
 
     def __init__(self, text):
