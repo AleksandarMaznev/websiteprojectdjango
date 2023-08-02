@@ -7,21 +7,22 @@
     <title>Register</title>
 </head>
 <body>
-<!--Register-->
-    {% block content %}
+<div id="wrapper">
+ <!-- Create Profile Form -->
+    <main>
+        <section id="register">
+            <div class="form">
+                <h2>Create Profile</h2>
+                <form action="{% url 'home' %}" method="post">
+                    {% csrf_token %}
+                    {{ add_form }}
 
-    {% csrf_token %}
-    {% load crispy_forms_tags %}
+                    <button type="submit">Create</button>
 
-        <div class="container py-5">
-        	<h1>Register</h1>
-        	<form method="POST">
-        		{% csrf_token %}
-        		<button class="btn btn-primary" type="submit">Register</button>
-        	</form>
-        	<p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
-        </div>
-    {% endblock %}
-
+                </form>
+            </div>
+        </section>
+        </main>
+</div>
 </body>
 </html>

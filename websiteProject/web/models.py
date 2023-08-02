@@ -16,6 +16,13 @@ class Profile(models.Model):
     email = models.EmailField(blank=False,
                               null=False, )
 
+    password = models.CharField(
+        max_length=30,
+        blank=False,
+        null=False,
+        validators=[MinLengthValidator(6), TextAndNumsOnlyValidator]
+    )
+
     def __str__(self):
         return self.username
 
