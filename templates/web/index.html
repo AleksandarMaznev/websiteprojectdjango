@@ -1,0 +1,36 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static "styles/navbar.css" %}">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Library of User Content Index</title>
+</head>
+<body>
+    <nav>
+        {% if not profile.is_authenticated %}
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'register' %}">Register</a> </li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+            </ul>
+        {% else %}
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'library' %}">Library</a> </li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        {% endif %}
+    </nav>
+    <h1>
+        Welcome to the Library of User Content
+    </h1>
+    <p>
+        {{profile.email}} | {{ profile.password }}
+    </p>
+</body>
+</html>

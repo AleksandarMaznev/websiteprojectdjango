@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<div id="wrapper">
+ <!-- Create Profile Form -->
+    <main>
+        <section id="login">
+            <div class="form">
+                <h2>Login</h2>
+                <form action="{% url 'login' %}" method="post" autocomplete="off">
+
+                    {% csrf_token %}
+                    {{ form.username }}
+                    {{ form.errors.username }}
+                    <br>
+                    {{ form.password }}
+                    {{ form.errors.password }}
+                    <br>
+                    <button type="submit">Login</button>
+
+                </form>
+            </div>
+        </section>
+        </main>
+</div>
+</body>
+</html>
