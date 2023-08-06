@@ -62,6 +62,7 @@ def login(request):
     if request.user.is_authenticated:
         return redirect('index')
 
+    from websiteProject.web.forms import LoginForm
     form = LoginForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -71,7 +72,7 @@ def login(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            login(request, user)
+            auth_login(request, user)
             return redirect('index')
         else:
             form.add_error("username", "Incorrect username or password")
@@ -84,7 +85,7 @@ def login(request):
 
 def logout_view(request):
     logout(request)
-    # Redirect to a success page.
+    redirect('index')
 
 
 def library(request):
