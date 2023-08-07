@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="{% static "styles/navbar.css" %}">
+    {% include 'web/styles.html' %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -11,27 +11,12 @@
     <title>Library of User Content Index</title>
 </head>
 <body>
-    <nav>
-        {% if not profile.is_authenticated %}
-            <ul>
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'register' %}">Register</a> </li>
-                <li><a href="{% url 'login' %}">Login</a></li>
-            </ul>
-        {% else %}
-            <ul>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'library' %}">Library</a> </li>
-                <li><a href="{% url 'profile' %}">Profile</a></li>
-            </ul>
-        {% endif %}
-    </nav>
+    {% include 'web/navbar.html' %}
+    {% include 'web/alert.html' %}
+
     <h1>
         Welcome to the Library of User Content
     </h1>
-    <p>
-        {{profile.email}} | {{ profile.password }}
-    </p>
+
 </body>
 </html>

@@ -85,7 +85,8 @@ def login(request):
 
 def logout_view(request):
     logout(request)
-    redirect('index')
+    messages.success(request, 'You are now logged out')
+    return redirect('index')
 
 
 def library(request):
@@ -105,4 +106,4 @@ def post_book(request):
 
 
 def edit_book(request):
-    return render(request, 'web/edit_book')
+    return render(request, 'web/edit_book.html')

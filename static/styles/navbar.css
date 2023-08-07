@@ -7,7 +7,7 @@ ul {
 }
 
 li {
-  float: right;
+  float: left;
 }
 
 li a {
@@ -23,3 +23,5 @@ li a:hover {
   /*filter: brightness(50%)*/
   background-color: #496B69 ;
 }
+
+
