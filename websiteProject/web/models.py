@@ -51,3 +51,10 @@ class Book(models.Model):
     synopsis = models.TextField(blank=True, null=True, )
     cover_url = models.URLField(blank=False, null=False)
     book = models.TextField(blank=False, null=False)
+    posted_on = models.DateTimeField(blank=True, null=True)
+
+
+class Comment(models.Model):
+    content = models.TextField(blank=False, null=False)
+    posted_on = models.DateTimeField(blank=True, null=True)
+    book_commented_on = models.ForeignKey(Book, on_delete=models.CASCADE)

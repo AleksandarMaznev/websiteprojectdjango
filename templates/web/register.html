@@ -1,8 +1,8 @@
-{% extends 'web/base.html' %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include 'web/styles.html' %}
     <meta charset="UTF-8">
     <title>Register</title>
 </head>
@@ -10,7 +10,7 @@
 <div id="wrapper">
  <!-- Create Profile Form -->
     <main>
-        {% block content %}
+    {% include 'web/navbar.html' %}
         <section id="register">
             <div class="form">
                 <h2>Create Profile</h2>
@@ -32,7 +32,6 @@
                 </form>
             </div>
         </section>
-        {% endblock %}
         </main>
 </div>
 </body>

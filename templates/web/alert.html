@@ -1,21 +1,17 @@
 {% load static %}
 
 
-    {% if messages %}
-        {% for message in messages %}
-             <div id="message" class="container-fluid animated fadeInUp" style="position:absolute; z-index:1000; top:32%;">
-                  <div class="row text-center">
-                       <div class="ml-auto mr-2 col-4 alert alert-{{ message.tags }} alert-dismissible text-center" role="alert">
-                           <strong>
-                               {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-                                   Error:
-                               {% else %}
-                                    {{ message.tags|title }}
-                               {% endif %}
-                            </strong>
-                           {{ message }}
-                       </div>
-                 </div>
-               </div>
-            {% endfor %}
-      {% endif %}
+<div id="messages">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible text-center">
+            <strong>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                    Error:
+                {% else %}
+                    {{ message.tags|title }}
+                {% endif %}
+            </strong>
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
