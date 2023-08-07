@@ -26,13 +26,6 @@ def register(request):
     from websiteProject.web.forms import ProfileModelForm
     form = ProfileModelForm()
 
-    # 'AnonymousUser' object has no attribute '_meta' fix
-    if request.user.is_authenticated:
-        user = request.user
-    else:
-        return redirect('index')
-    #  ----------------------------------------------------
-
     if request.method == "POST":
         form = ProfileModelForm(request.POST)
         if form.is_valid():
@@ -42,11 +35,7 @@ def register(request):
                 password=form.cleaned_data.get('password1')
             )
             form.instance.user = user
-            form.save()
 
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
             auth_login(request, user)
             return redirect('index')
 
