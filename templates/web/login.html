@@ -2,24 +2,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include 'web/styles.html' %}
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
 <div id="wrapper">
- <!-- Create Profile Form -->
     <main>
+    {% include 'web/navbar.html' %}
         <section id="login">
             <div class="form">
                 <h2>Login</h2>
                 <form action="{% url 'login' %}" method="post" autocomplete="off">
 
                     {% csrf_token %}
-                    {{ form.username }}
-                    {{ form.errors.username }}
+                        {% for error in add_form.non_field_errors %}
+                            <span class="error">{{ error }}</span>
+                        {% endfor %}
+                        <br>
+                    {{ add_form.username }}
                     <br>
-                    {{ form.password }}
-                    {{ form.errors.password }}
+                    {{ add_form.password }}
                     <br>
                     <button type="submit">Login</button>
 

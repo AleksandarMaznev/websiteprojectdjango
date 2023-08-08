@@ -1,10 +1,11 @@
-from django.contrib.auth import logout, authenticate, get_user_model
+from django.contrib.auth import logout, authenticate as auth_authenticate, get_user_model
 from django.contrib.auth import login as auth_login
+from django.forms import forms
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-
+from websiteProject.web.forms import ProfileModelForm, LoginForm
 from websiteProject.web.models import Profile
 
 UserModel = get_user_model()
@@ -21,9 +22,9 @@ def index(request):
     return render(request, "web/index.html", context)
 
 
+# TODO fix registering using superuser nicks traceback error
 def register(request):
     profilee = Profile.objects.first()
-    from websiteProject.web.forms import ProfileModelForm
     form = ProfileModelForm()
 
     if request.method == "POST":
@@ -32,9 +33,10 @@ def register(request):
             user = UserModel.objects.create_user(
                 username=form.cleaned_data.get('username'),
                 email=form.cleaned_data.get('email'),
-                password=form.cleaned_data.get('password1')
+                password=form.cleaned_data.get('password')
             )
             form.instance.user = user
+            form.save()
 
             auth_login(request, user)
             return redirect('index')
@@ -47,28 +49,33 @@ def register(request):
     return render(request, "web/register.html", context)
 
 
-def login(request):
+def login_view(request):
     if request.user.is_authenticated:
         return redirect('index')
 
-    from websiteProject.web.forms import LoginForm
-    form = LoginForm(request.POST or None)
+    form = LoginForm()
 
-    if request.method == "POST" and form.is_valid():
-        username = form.cleaned_data.get("username")
-        password = form.cleaned_data.get("password")
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            print('valid')
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = auth_authenticate(username=username, password=password)
 
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            auth_login(request, user)
-            return redirect('index')
+            if user is not None:
+                auth_login(request, user)
+                return redirect('index')
+            else:
+                form.add_error("username", "Incorrect username or password")
         else:
-            form.add_error("username", "Incorrect username or password")
+            for field in form:
+                print("Field Error:", field.name, field.errors)
 
     context = {
-        "form": form,
+        "add_form": form,
     }
+
     return render(request, "web/login.html", context)
 
 

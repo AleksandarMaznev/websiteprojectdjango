@@ -41,7 +41,7 @@ class Profile(models.Model):
 
 class Book(models.Model):
     title = models.CharField(max_length=255, blank=False, null=False, validators=[TextAndNumsOnlyValidator])
-    author = models.CharField(max_length=30, blank=False, null=False)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     genre = models.CharField(
         max_length=255,
         choices=genre_choices,

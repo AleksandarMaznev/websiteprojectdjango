@@ -67,5 +67,5 @@ body {
 
 #messages {
     position: absolute;
-    top: 100px;
+    margin: 0 auto;
 }

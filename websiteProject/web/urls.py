@@ -5,7 +5,7 @@ from websiteProject.web import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('register', views.register, name='register'),
-    path('login', views.login, name='login'),
+    path('login', views.login_view, name='login'),
     path('library', views.library, name='library'),
     path('library/book/<int:id>', views.book, name='library_book'),
     path('profile', views.profile, name='profile'),
