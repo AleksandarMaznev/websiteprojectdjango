@@ -1,6 +1,9 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{% static 'styles/post_book.css' %}">
+    {% include 'web/styles.html' %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -8,6 +11,14 @@
     <title>Post Book</title>
 </head>
 <body>
-
+    {% include 'web/navbar.html' %}
+    <div class="post-book">
+    <h1>Post a BOOK</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create</button>
+        </form>
+    </div>
 </body>
 </html>

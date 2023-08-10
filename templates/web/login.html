@@ -5,6 +5,7 @@
     {% include 'web/styles.html' %}
     <meta charset="UTF-8">
     <title>Login</title>
+
 </head>
 <body>
 <div id="wrapper">
@@ -16,10 +17,10 @@
                 <form action="{% url 'login' %}" method="post" autocomplete="off">
 
                     {% csrf_token %}
-                        {% for error in add_form.non_field_errors %}
-                            <span class="error">{{ error }}</span>
-                        {% endfor %}
-                        <br>
+                    {% for error in add_form.non_field_errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
+                    <br>
                     {{ add_form.username }}
                     <br>
                     {{ add_form.password }}

@@ -16,17 +16,24 @@
                 <form action="{% url 'register' %}" method="post" autocomplete="off">
 
                     {% csrf_token %}
+                    {% for error in add_form.non_field_errors %}
+                        <span class="error">{{ error }}</span>
+                    {% endfor %}
                     {% for field in add_form %}
                         {% for error in field.errors %}
-                            <span class="error">{{ error }}</span>
+                            <div class="error">{{ error }}</div>
                         {% endfor %}
-                        <br>
                     {% endfor %}
+                    <br>
+                    <label for="{{ add_form.username.id_for_label }}">Username:</label>
                     {{ add_form.username }}
                     <br>
+                    <label for="{{ add_form.email.id_for_label }}">Email:</label>
                     {{ add_form.email }}
                     <br>
-                    {{ add_form.password }}
+                    {{ add_form.password1.label_tag }} {{ add_form.password1 }}
+                    <br>
+                    {{ add_form.password2.label_tag }} {{ add_form.password2 }}
                     <br>
                     <button type="submit">Create</button>
 

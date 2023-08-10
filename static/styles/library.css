@@ -1,0 +1,43 @@
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.book-box {
+    border: 1px solid #496B69;
+    padding: 10px;
+    margin: 50px;
+    background-color: #AFE2DE;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Style for the cover image */
+.book-box img {
+    display: block;
+    max-width: 100%;
+    margin: 10px auto;
+
+}
+
+.book-box a{
+    display: inline-block;
+    text-decoration: none;
+    color: #151517;
+}
+
+/* Style for the download link */
+.download-button{
+    display: block;
+    margin-top: 10px;
+}
+
+.download-button a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
