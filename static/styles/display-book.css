@@ -1,0 +1,30 @@
+.book-story{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 10px auto;
+    /*margin-left: 30%;*/
+    /*margin-right: 30%;*/
+    width: 80%;
+    max-width: 500px;
+    padding: 20px;
+    border: 1px solid #496B69;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+
+}
+
+.book-story p {
+  margin-bottom: 20px;
+}
+
+.book-story h1{
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+
+}

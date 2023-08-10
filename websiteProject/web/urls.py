@@ -7,9 +7,12 @@ urlpatterns = [
     path('register', views.register, name='register'),
     path('login', views.login_view, name='login'),
     path('library', views.library, name='library'),
-    path('library/book/<int:id>', views.book, name='library_book'),
+    path('library/book/<int:book_pk>', views.book, name='library_book'),
     path('profile', views.ProfileView.as_view(), name='profile'),
     path('profile/post', views.post_book, name="post_book"),
-    path('library/book/<int:id>/edit', views.edit_book, name='edit_book'),
-    path('logout', views.LogoutView.as_view(), name='logout')
-    ]
+    path('library/book/<int:book_pk>/edit', views.edit_book, name='edit_book'),
+    path('logout', views.LogoutView.as_view(), name='logout'),
+    path('delete/<int:book_pk>/', views.delete_book, name='delete_book'),
+    path('delete_confirm/<int:book_pk>/', views.delete_book_confirm, name='delete_book_confirm'),
+
+]

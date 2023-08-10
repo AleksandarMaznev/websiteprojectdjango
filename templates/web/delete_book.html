@@ -1,0 +1,22 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'web/styles.html' %}
+    <meta charset="UTF-8">
+    <title>Delete Book</title>
+</head>
+<body>
+    {% include 'web/navbar.html' %}
+
+    <h1>Confirm Deletion</h1>
+    <p>Are you sure you want to delete the book "{{ book.title }}"?</p>
+    <form method="post" action="{% url 'delete_book_confirm' book.pk %}">
+        {% csrf_token %}
+        <button type="submit">Confirm Delete</button>
+        <a href="{% url 'profile' %}">Cancel</a>
+    </form>
+
+</body>
+</html>

@@ -5,6 +5,7 @@ body {
     /*align-items: center;*/
     min-height: 100vh;
     margin: 0;
+
 }
 
 .post-book {
@@ -22,6 +23,7 @@ h1 {
 
 /* Style for the form container */
 form {
+
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 20px;
