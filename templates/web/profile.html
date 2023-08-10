@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
-{#    <link rel="stylesheet" href="{% static profile %}">#}
+    <link rel="stylesheet" href="{% static 'styles/generic.css'%}">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -14,23 +14,27 @@
 <body>
     {% include 'web/navbar.html' %}
     <ul>
-    {% for book in books %}
-            <li class="book-box">
-                <a href="{% url 'library_book' book.pk %}">
-                    <h2>{{ book.title }}</h2>
-                </a>
-                    <p><strong>Author:</strong> {{ book.author.user.username }}</p>
-                    <p><strong>Genre:</strong> {{ book.genre }}</p>
-                    <p><strong>Synopsis:</strong> {{ book.synopsis }}</p>
-                    <p><strong>Posted on:</strong> {{ book.posted_on }}</p>
-                    <a href="{{ book.cover.url }}" target="_blank">
-                        <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
+    {% if books %}
+        {% for book in books %}
+                <li class="book-box">
+                    <a href="{% url 'library_book' book.pk %}">
+                        <h2>{{ book.title }}</h2>
                     </a>
-                <span class="delete-button">
-                    <a href="{% url 'delete_book' book.id %}">Delete Book</a>
-                </span>
-            </li>
-    {% endfor %}
+                        <p><strong>Author:</strong> {{ book.author.user.username }}</p>
+                        <p><strong>Genre:</strong> {{ book.genre }}</p>
+                        <p><strong>Synopsis:</strong> {{ book.synopsis }}</p>
+                        <p><strong>Posted on:</strong> {{ book.posted_on }}</p>
+                        <a href="{{ book.cover.url }}" target="_blank">
+                            <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
+                        </a>
+                    <span class="delete-button">
+                        <a href="{% url 'delete_book' book.id %}">Delete Book</a>
+                    </span>
+                </li>
+        {% endfor %}
+    {% else %}
+    <p> You have not posted any books</p>
+    {% endif %}
     </ul>
 
 

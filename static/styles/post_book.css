@@ -45,5 +45,8 @@ textarea {
 
 }
 
-.post-book
+#id_title, #id_book_file, #id_cover{
+    max-width: 95%;
+
+}
 

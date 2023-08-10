@@ -47,7 +47,8 @@ class LoginForm(forms.Form):
         max_length=30,
         required=True,
         widget=forms.TextInput(attrs={
-            'placeholder': 'Username'
+            'autofocus': True,
+
         })
     )
     password = forms.CharField(
@@ -55,7 +56,6 @@ class LoginForm(forms.Form):
         max_length=30,
         required=True,
         widget=forms.PasswordInput(attrs={
-            'placeholder': 'Password'
         }),
     )
 

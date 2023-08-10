@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/log-reg-fix.css' %}">
     <meta charset="UTF-8">
     <title>Login</title>
 
@@ -21,8 +22,10 @@
                         <span class="error">{{ error }}</span>
                     {% endfor %}
                     <br>
+                    <label for="{{ add_form.username.id_for_label }}">Username:</label>
                     {{ add_form.username }}
                     <br>
+                    <label for="{{ add_form.password.id_for_label }}">Password:</label>
                     {{ add_form.password }}
                     <br>
                     <button type="submit">Login</button>

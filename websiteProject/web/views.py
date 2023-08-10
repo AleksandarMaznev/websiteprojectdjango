@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.utils import timezone
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.auth.decorators import login_required
 
@@ -105,6 +106,7 @@ def book(request, book_pk):
 
 
 class ProfileView(View):
+    @method_decorator(login_required)  # Apply login_required decorator to the get method
     def get(self, request):
         context = {}
         author = Profile.objects.get(username=request.user.username)
@@ -115,12 +117,12 @@ class ProfileView(View):
         return render(request, 'web/profile.html', context)
 
 
-@login_required
+@login_required()
 def post_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
-            user = User.objects.get(username=request.user.username)  # Replace 'username' with the actual username
+            user = User.objects.get(username=request.user.username)
             profile: Profile = Profile.objects.get(user=user)
 
             book = form.save(commit=False)
@@ -128,18 +130,24 @@ def post_book(request):
             book.posted_on = timezone.now()
             book.save()
 
-            return redirect('index')  # Redirect to success page
+            return redirect('index')
     else:
         form = BookForm()
     return render(request, 'web/post_book.html', {'form': form})
 
 
+@login_required()
 def edit_book(request):  # todo class based view
     return render(request, 'web/edit_book.html')
 
 
+@login_required()
 def delete_book(request, book_pk):
+    username = request.user.username
     book = Book.objects.get(pk=book_pk)
+    author_name = book.author.username
+    if (not request.user.is_staff) and username != author_name:
+        return redirect('access_denied')
     context = {
         'book': book,
     }
@@ -155,3 +163,10 @@ def delete_book_confirm(request, book_pk):
         return redirect('profile')
 
     return redirect('delete_book', book_pk=book_pk)
+
+
+class AccessDenied(View):
+    template_name = 'web/access_denied.html'
+
+    def get(self, request):
+        return render(request, self.template_name)

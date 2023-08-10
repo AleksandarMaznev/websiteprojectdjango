@@ -14,5 +14,5 @@ urlpatterns = [
     path('logout', views.LogoutView.as_view(), name='logout'),
     path('delete/<int:book_pk>/', views.delete_book, name='delete_book'),
     path('delete_confirm/<int:book_pk>/', views.delete_book_confirm, name='delete_book_confirm'),
-
+    path('access_denied', views.AccessDenied.as_view(), name='access_denied')
 ]

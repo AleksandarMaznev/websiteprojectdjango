@@ -1,0 +1,21 @@
+p{
+margin: 0.6em;
+
+}
+
+#messages{
+    font-size: 1em;
+    display: flex;
+    gap: 1em;
+    padding: 0;
+    margin: 0;
+    background-color: #F9F871;
+    justify-content: center;
+}
+#alert-main{
+    font-weight: bold;
+
+}
+
+#alert-content{
+}

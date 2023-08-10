@@ -85,3 +85,8 @@ class Comment(models.Model):
     content = models.TextField(blank=False, null=False)
     posted_on = models.DateTimeField(blank=True, null=True)
     book_commented_on = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+
+class Favouites(models.Model):
+    user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    book_id = models.ForeignKey(Book, on_delete=models.CASCADE)

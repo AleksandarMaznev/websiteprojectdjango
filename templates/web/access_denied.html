@@ -1,0 +1,15 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/generic.css' %}">
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+</head>
+<body>
+{% include 'web/navbar.html' %}
+    <h1>You do not have access to this page</h1>
+</body>
+</html>

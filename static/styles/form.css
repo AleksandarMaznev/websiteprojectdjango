@@ -3,6 +3,11 @@
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
+    margin-top: 1em;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+
+
 }
 
 h2 {
@@ -14,6 +19,7 @@ input {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
+    max-width: 95%;
 }
 
 button {
@@ -23,3 +29,4 @@ button {
     border: 1px solid #ccc;
     cursor: pointer;
 }
+

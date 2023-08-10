@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/alerts.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -12,11 +13,13 @@
 </head>
 <body>
     {% include 'web/navbar.html' %}
-    {% include 'web/alert.html' %}
-
+    <section class="alert_div">
+        {% include 'web/alert.html' %}
+    </section>
+    <section class="index-main">
     <h1>
         Welcome to the Library of User Content
     </h1>
-
+    </section>
 </body>
 </html>
