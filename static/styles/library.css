@@ -41,3 +41,17 @@ ul {
     padding: 5px 10px;
     border-radius: 4px;
 }
+
+.delete-button{
+    display: block;
+    margin-top: 10px;
+}
+.delete-button a{
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    background-color: red;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
