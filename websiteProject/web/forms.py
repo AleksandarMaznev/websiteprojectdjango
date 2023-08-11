@@ -6,7 +6,7 @@ from django.core.validators import MinLengthValidator
 from websiteProject.web.validators import TextAndNumsOnlyValidator
 
 
-from .models import Profile, Book
+from .models import Profile, Book, Comment
 
 
 # Create your forms here.
@@ -79,3 +79,10 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ['title', 'author', 'genre', 'synopsis', 'cover', 'book_file', 'posted_on']
         exclude = ['author', 'posted_on']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content', 'posted_on']
+        exclude= ['posted_on']

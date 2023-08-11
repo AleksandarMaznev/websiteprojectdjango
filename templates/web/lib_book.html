@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/alerts.css' %}">
     <link rel="stylesheet" href="{% static 'styles/display-book.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -13,6 +14,11 @@
 </head>
 <body>
     {% include 'web/navbar.html' %}
+
+    <section class="alert_div">
+        {% include 'web/alert.html' %}
+    </section>
+
     <div class="book-story">
         <h1>
             {{ book.title }}
@@ -22,6 +28,9 @@
             {{ paragraph }}
             </p>
         {% endfor %}
+    <a href="{% url 'book_comment' book.pk%}" class="comments-button">Comments</a>
+    <a href="{% url 'favorite' book.pk%}" class="favorite-button">Favorite</a>
+
     </div>
 </body>
 </html>

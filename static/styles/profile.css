@@ -1,0 +1,20 @@
+.all-stories{
+    display: grid;
+
+    grid-template-columns: 1fr 1fr ;
+    grid-template-areas:
+    'favorites my-posts';
+
+}
+
+.own-story{
+    grid-area: my-posts;
+}
+
+.fav-story{
+    grid-area: favorites;
+}
+
+li{
+    list-style: none;
+}

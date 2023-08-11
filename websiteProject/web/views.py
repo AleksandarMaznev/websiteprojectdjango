@@ -1,18 +1,18 @@
 import os
-
 from django.contrib.auth import logout, authenticate as auth_authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.contrib.auth.decorators import login_required
-
+from django.views.generic import ListView
 from websiteProject.web.extract_text_from_docx import extract_text_from_docx
-from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm
-from websiteProject.web.models import Profile, Book
+from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm, CommentForm
+from websiteProject.web.models import Profile, Book, Comment, Favorites
 
 UserModel = get_user_model()
 
@@ -81,11 +81,6 @@ def login_view(request):
     return render(request, "web/login.html", context)
 
 
-# def logout_view(request):
-#     logout(request)
-#     messages.success(request, 'You are now logged out')
-#     return redirect('index')
-
 class LogoutView(View):
     def get(self, request):
         logout(request)
@@ -93,10 +88,10 @@ class LogoutView(View):
         return redirect('index')
 
 
-def library(request):
-    books = Book.objects.all()
-    context = {'books': books}
-    return render(request, "web/lib.html", context)
+class LibraryView(ListView):
+    model = Book
+    template_name = 'web/lib.html'
+    context_object_name = 'books'
 
 
 def book(request, book_pk):
@@ -106,13 +101,19 @@ def book(request, book_pk):
 
 
 class ProfileView(View):
-    @method_decorator(login_required)  # Apply login_required decorator to the get method
+    @method_decorator(login_required)
     def get(self, request):
-        context = {}
         author = Profile.objects.get(username=request.user.username)
         books = Book.objects.all().filter(author_id=author.id)
-        context = {'books': books}
-        print('books')
+        favorites = Favorites.objects.all().filter(user_id_id=author.id)
+        fav_books = []
+        for favorite in favorites:
+            fav_books.append(Book.objects.get(id=favorite.book_id_id))
+
+        context = {
+            'books': books,
+            'favs': fav_books,
+        }
 
         return render(request, 'web/profile.html', context)
 
@@ -137,9 +138,39 @@ def post_book(request):
 
 
 @login_required()
+def comment(request, book_pk):
+    book = Book.objects.get(pk=book_pk)
+    comments = Comment.objects.all().filter(book_commented_on=book_pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            user = User.objects.get(username=request.user.username)
+            profile: Profile = Profile.objects.get(user=user)
+
+            context = {
+                'book': book,
+                'comments': comments,
+                'form': form
+            }
+            comment = form.save(commit=False)
+            comment.book_commented_on = book
+            comment.posted_by = profile
+            comment.posted_on = timezone.now()
+            comment.save()
+
+            return redirect(reverse('book_comment', args=[book_pk]))
+    else:
+        form = CommentForm()
+        context = {
+            'book': book,
+            'comments': comments,
+            'form': form
+        }
+        return render(request, 'web/comments.html', context)
+
+@login_required()
 def edit_book(request):  # todo class based view
     return render(request, 'web/edit_book.html')
-
 
 @login_required()
 def delete_book(request, book_pk):
@@ -170,3 +201,24 @@ class AccessDenied(View):
 
     def get(self, request):
         return render(request, self.template_name)
+
+
+def favorite(request, book_pk):
+    book = Book.objects.get(pk=book_pk)
+    user = request.user
+    profile = Profile.objects.get(user=user)
+
+    if Favorites.objects.filter(user_id_id=profile.id, book_id_id=book.id):
+        messages.error(request, 'You have already favorited this book')
+        return redirect('library_book', book_pk=book_pk)
+
+    favorite_instance = Favorites(
+        user_id_id=profile.id,
+        book_id_id=book.id,
+        favorited_on=timezone.now(),
+    )
+
+    favorite_instance.save()
+
+    messages.success(request, 'You have favorited this book')
+    return redirect('library_book', book_pk=book_pk)

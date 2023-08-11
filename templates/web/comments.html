@@ -1,0 +1,36 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    {% include 'web/styles.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Comments</title>
+</head>
+<body>
+    {% include 'web/navbar.html' %}
+    <div class="comments-form">
+        <h3>Comments on: "{{ book.title }}"</h3>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" id="comment-submit">Create</button>
+        </form>
+        {% if comments %}
+            {% for comment in  comments %}
+                <div class="comment-box">
+                    <p class="comment-info">By: {{ comment.posted_by.username }} on {{ comment.posted_on }}</p>
+                    <p>{{ comment.content }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="comment-none">
+                <p>This story has no comments yet!</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -5,6 +5,8 @@
 <head>
     {% include 'web/styles.html' %}
     <link rel="stylesheet" href="{% static 'styles/generic.css'%}">
+    <link rel="stylesheet" href="{% static 'styles/profile.css'%}">
+
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -13,30 +15,58 @@
 </head>
 <body>
     {% include 'web/navbar.html' %}
-    <ul>
-    {% if books %}
-        {% for book in books %}
-                <li class="book-box">
-                    <a href="{% url 'library_book' book.pk %}">
-                        <h2>{{ book.title }}</h2>
-                    </a>
-                        <p><strong>Author:</strong> {{ book.author.user.username }}</p>
-                        <p><strong>Genre:</strong> {{ book.genre }}</p>
-                        <p><strong>Synopsis:</strong> {{ book.synopsis }}</p>
-                        <p><strong>Posted on:</strong> {{ book.posted_on }}</p>
-                        <a href="{{ book.cover.url }}" target="_blank">
-                            <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
+    <div class="all-stories">
+        <div class="own-story">
+            <h2>
+                My stories
+            </h2>
+            <ul>
+            {% if books %}
+                {% for book in books %}
+                        <li class="book-box">
+                            <a href="{% url 'library_book' book.pk %}">
+                                <h2>{{ book.title }}</h2>
+                            </a>
+                                <p><strong>Author:</strong> {{ book.author.user.username }}</p>
+                                <p><strong>Genre:</strong> {{ book.genre }}</p>
+                                <p><strong>Synopsis:</strong> {{ book.synopsis }}</p>
+                                <p><strong>Posted on:</strong> {{ book.posted_on }}</p>
+                                <a href="{{ book.cover.url }}" target="_blank">
+                                    <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
+                                </a>
+                            <span class="delete-button">
+                                <a href="{% url 'delete_book' book.id %}">Delete Book</a>
+                            </span>
+                        </li>
+                {% endfor %}
+            {% else %}
+            <p> You have not posted any books</p>
+            {% endif %}
+            </ul>
+        </div>
+        <div class="fav-story">
+            <h2>
+                My favorites
+            </h2>
+            {% if favs %}
+                {% for fav in favs %}
+                    <li class="book-box">
+                        <a href="{% url 'library_book' fav.id %}">
+                            <h2>{{ fav.title }}</h2>
                         </a>
-                    <span class="delete-button">
-                        <a href="{% url 'delete_book' book.id %}">Delete Book</a>
-                    </span>
-                </li>
-        {% endfor %}
-    {% else %}
-    <p> You have not posted any books</p>
-    {% endif %}
-    </ul>
+                        <p><strong>Author:</strong> {{ fav.author.user.username }}</p>
+                        <p><strong>Genre:</strong> {{ fav.genre }}</p>
+                        <p><strong>Synopsis:</strong> {{ fav.synopsis }}</p>
+                        <p><strong>Posted on:</strong> {{ fav.posted_on }}</p>
+                        <a href="{{ fav.cover.url }}" target="_blank">
+                            <img src="{{ fav.cover.url }}" alt="Cover Image" width="200">
+                        </a>
+                    </li>
+                {% endfor %}
 
+            {% endif %}
+        </div>
+    </div>
 
 
 </body>
