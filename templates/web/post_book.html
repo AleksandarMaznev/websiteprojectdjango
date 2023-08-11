@@ -3,6 +3,8 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static 'styles/post_book.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/alerts.css' %}">
+
     {% include 'web/styles.html' %}
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -12,6 +14,7 @@
 </head>
 <body>
     {% include 'web/navbar.html' %}
+    {% include 'web/alert.html' %}
     <div class="post-book">
     <h1>Post a BOOK</h1>
         <form method="post" enctype="multipart/form-data">

@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/alerts.css' %}">
     <link rel="stylesheet" href="{% static 'styles/generic.css'%}">
     <link rel="stylesheet" href="{% static 'styles/profile.css'%}">
 
@@ -15,6 +16,7 @@
 </head>
 <body>
     {% include 'web/navbar.html' %}
+    {% include 'web/alert.html' %}
     <div class="all-stories">
         <div class="own-story">
             <h2>
@@ -40,7 +42,7 @@
                         </li>
                 {% endfor %}
             {% else %}
-            <p> You have not posted any books</p>
+                <p> You have not posted any books</p>
             {% endif %}
             </ul>
         </div>
@@ -61,9 +63,13 @@
                         <a href="{{ fav.cover.url }}" target="_blank">
                             <img src="{{ fav.cover.url }}" alt="Cover Image" width="200">
                         </a>
+                        <span class="delete-button">
+                            <a href="{% url 'remove_favorite' profile_id fav.id %}">Remove favorite</a>
+                        </span>
                     </li>
                 {% endfor %}
-
+            {% else %}
+                <p> You have not favorited any books</p>
             {% endif %}
         </div>
     </div>

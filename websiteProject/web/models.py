@@ -92,3 +92,4 @@ class Favorites(models.Model):
     user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
     favorited_on = models.DateTimeField(blank=True, null=True)
+

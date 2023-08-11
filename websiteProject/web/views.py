@@ -2,6 +2,7 @@ import os
 from django.contrib.auth import logout, authenticate as auth_authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -103,16 +104,18 @@ def book(request, book_pk):
 class ProfileView(View):
     @method_decorator(login_required)
     def get(self, request):
-        author = Profile.objects.get(username=request.user.username)
-        books = Book.objects.all().filter(author_id=author.id)
-        favorites = Favorites.objects.all().filter(user_id_id=author.id)
+        profile = Profile.objects.get(username=request.user.username)
+        books = Book.objects.all().filter(author_id=profile.id)
+        favorites = Favorites.objects.all().filter(user_id_id=profile.id)
         fav_books = []
+
         for favorite in favorites:
             fav_books.append(Book.objects.get(id=favorite.book_id_id))
 
         context = {
             'books': books,
             'favs': fav_books,
+            'profile_id': profile.id,
         }
 
         return render(request, 'web/profile.html', context)
@@ -129,7 +132,21 @@ def post_book(request):
             book = form.save(commit=False)
             book.author = profile
             book.posted_on = timezone.now()
-            book.save()
+
+            allowed_file_ext = ['docx']
+            allowed_cover_ext = ['jpg', 'png']
+
+            if book.book_file.path.split('.')[-1] not in allowed_file_ext:
+                messages.error(request, "File type not allowed, please only use 'docx'")
+                form = BookForm(request.POST)
+                return render(request, 'web/post_book.html', {'form':form})
+            if book.cover.path.split('.')[-1] not in allowed_cover_ext:
+                messages.error(request, "File type not allowed, please only use 'jpg' or 'png'")
+                form = BookForm(request.POST)
+                return render(request, 'web/post_book.html', {'form':form})
+
+
+            # book.save()
 
             return redirect('index')
     else:
@@ -141,16 +158,16 @@ def post_book(request):
 def comment(request, book_pk):
     book = Book.objects.get(pk=book_pk)
     comments = Comment.objects.all().filter(book_commented_on=book_pk)
+    user = User.objects.get(username=request.user.username)
+    profile: Profile = Profile.objects.get(user=user)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            user = User.objects.get(username=request.user.username)
-            profile: Profile = Profile.objects.get(user=user)
-
             context = {
                 'book': book,
                 'comments': comments,
-                'form': form
+                'form': form,
+                'profile':profile
             }
             comment = form.save(commit=False)
             comment.book_commented_on = book
@@ -164,13 +181,16 @@ def comment(request, book_pk):
         context = {
             'book': book,
             'comments': comments,
-            'form': form
+            'form': form,
+            'id': profile.id
         }
         return render(request, 'web/comments.html', context)
+
 
 @login_required()
 def edit_book(request):  # todo class based view
     return render(request, 'web/edit_book.html')
+
 
 @login_required()
 def delete_book(request, book_pk):
@@ -203,6 +223,7 @@ class AccessDenied(View):
         return render(request, self.template_name)
 
 
+@login_required()
 def favorite(request, book_pk):
     book = Book.objects.get(pk=book_pk)
     user = request.user
@@ -222,3 +243,21 @@ def favorite(request, book_pk):
 
     messages.success(request, 'You have favorited this book')
     return redirect('library_book', book_pk=book_pk)
+
+
+@login_required()
+def remove_favorite(request, profile_id, book_id):
+    try:
+        favorite = Favorites.objects.filter(user_id_id=profile_id, book_id_id=book_id)
+
+    except ObjectDoesNotExist:
+        messages.error(request, 'Does not exist')
+        return redirect('index')
+
+    profile = Profile.objects.get(id=profile_id)
+    if profile.username != request.user.username:
+        return redirect('access_denied')
+
+    favorite.delete()
+    messages.success(request, 'Successfully removed book from favorites')
+    return  redirect('index')

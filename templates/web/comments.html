@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/txtarea-comments.css'%}">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -24,6 +25,11 @@
                 <div class="comment-box">
                     <p class="comment-info">By: {{ comment.posted_by.username }} on {{ comment.posted_on }}</p>
                     <p>{{ comment.content }}</p>
+
+                    {% if id == comment.posted_by %}
+                        <a href="{% url 'edit_book' book.pk%}" class="comments-button">Edit</a>
+                    {% else %}
+                    {% endif %}
                 </div>
             {% endfor %}
         {% else %}

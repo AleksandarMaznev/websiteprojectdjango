@@ -17,4 +17,6 @@ urlpatterns = [
     path('delete_confirm/<int:book_pk>/', views.delete_book_confirm, name='delete_book_confirm'),
     path('access_denied', views.AccessDenied.as_view(), name='access_denied'),
     path('library/book/<int:book_pk>/favorite', views.favorite, name='favorite'),
+    path('profile/remove_favorite/<int:profile_id>/<int:book_id>', views.remove_favorite, name='remove_favorite'),
+
 ]

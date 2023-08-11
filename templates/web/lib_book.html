@@ -28,9 +28,10 @@
             {{ paragraph }}
             </p>
         {% endfor %}
-    <a href="{% url 'book_comment' book.pk%}" class="comments-button">Comments</a>
-    <a href="{% url 'favorite' book.pk%}" class="favorite-button">Favorite</a>
-
+        <div class="book-buttons">
+            <a href="{% url 'book_comment' book.pk%}" class="comments-button">Comments</a>
+            <a href="{% url 'favorite' book.pk%}" class="favorite-button">Favorite</a>
+        </div>
     </div>
 </body>
 </html>
