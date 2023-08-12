@@ -23,6 +23,44 @@ UserModel = get_user_model()
 # Create your views here.
 
 
+class ProfileView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        profile = Profile.objects.get(username=request.user.username)
+        books = Book.objects.all().filter(author_id=profile.id)
+        favorites = Favorites.objects.all().filter(user_id_id=profile.id)
+        fav_books = []
+
+        for favorite in favorites:
+            fav_books.append(Book.objects.get(id=favorite.book_id_id))
+
+        context = {
+            'books': books,
+            'favs': fav_books,
+            'profile_id': profile.id,
+        }
+
+        return render(request, 'web/profile.html', context)
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'You are now logged out')
+        return redirect('index')
+
+
+class LibraryView(ListView):
+    model = Book
+    template_name = 'web/lib.html'
+    context_object_name = 'books'
+
+class AccessDenied(View):
+    template_name = 'web/access_denied.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
 class IndexView(View):
     template_name = 'web/index.html'
 
@@ -88,43 +126,12 @@ def login_view(request):
     return render(request, "web/login.html", context)
 
 
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        messages.success(request, 'You are now logged out')
-        return redirect('index')
-
-
-class LibraryView(ListView):
-    model = Book
-    template_name = 'web/lib.html'
-    context_object_name = 'books'
-
-
 def book(request, book_pk):
     book = Book.objects.get(pk=book_pk)
     book_text = extract_text_from_docx(book.book_file)
     return render(request, "web/lib_book.html", {'book_content': book_text, 'book': book})
 
 
-class ProfileView(View):
-    @method_decorator(login_required)
-    def get(self, request):
-        profile = Profile.objects.get(username=request.user.username)
-        books = Book.objects.all().filter(author_id=profile.id)
-        favorites = Favorites.objects.all().filter(user_id_id=profile.id)
-        fav_books = []
-
-        for favorite in favorites:
-            fav_books.append(Book.objects.get(id=favorite.book_id_id))
-
-        context = {
-            'books': books,
-            'favs': fav_books,
-            'profile_id': profile.id,
-        }
-
-        return render(request, 'web/profile.html', context)
 
 
 @login_required()
@@ -262,11 +269,7 @@ def delete_book_confirm(request, book_pk):
     return redirect('delete_book', book_pk=book_pk)
 
 
-class AccessDenied(View):
-    template_name = 'web/access_denied.html'
 
-    def get(self, request):
-        return render(request, self.template_name)
 
 
 @login_required()
