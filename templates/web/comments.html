@@ -5,6 +5,7 @@
 <head>
     {% include 'web/styles.html' %}
     <link rel="stylesheet" href="{% static 'styles/txtarea-comments.css'%}">
+    <link rel="stylesheet" href="{% static 'styles/cancel-button.css' %}">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -18,7 +19,7 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" id="comment-submit">Submit</button>
+            <button type="submit" id="log-in-b">Submit</button>
         </form>
         {% if comments %}
             {% for comment in  comments %}

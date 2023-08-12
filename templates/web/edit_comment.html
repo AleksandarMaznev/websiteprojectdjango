@@ -6,6 +6,7 @@
     {% include 'web/styles.html' %}
     <link rel="stylesheet" href="{% static 'styles/comments.css' %}">
     <link rel="stylesheet" href="{% static 'styles/txtarea-comments.css'%}">
+    <link rel="stylesheet" href="{% static 'styles/cancel-button.css' %}">
 
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -20,9 +21,9 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save Changes</button>
+    <button type="submit" id="log-in-b">Save Changes</button>
   </form>
-  <a href="{% url 'book_comment' book_pk %}" class="cancel-button">Cancel</a>
+  <a href="{% url 'book_comment' book_pk %}" class="cancel-button-2">Cancel</a>
 </div>
 </body>
 </html>

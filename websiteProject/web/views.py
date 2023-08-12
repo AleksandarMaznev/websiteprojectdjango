@@ -31,6 +31,9 @@ class IndexView(View):
 
 
 def register(request):
+    if request.user.is_authenticated:
+        messages.error(request, 'You are already logged in')
+        return redirect('index')
     form = UserCreationForm()
 
     if request.method == "POST":
@@ -56,6 +59,7 @@ def register(request):
 
 def login_view(request):
     if request.user.is_authenticated:
+        messages.error(request, 'You are already logged in')
         return redirect('index')
 
     form = LoginForm()

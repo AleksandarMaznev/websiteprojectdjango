@@ -1,8 +1,9 @@
 .main-page{
     display: grid;
-    grid-template-columns: 1.25fr 1fr ;
+    grid-template-columns: 2fr 1fr ;
     grid-template-areas:
     'left right';
+
 
 }
 
@@ -23,15 +24,20 @@
     margin-left: 10px;
     margin-top: 0;
     padding-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
     font-size: 1.5em;
-    color: white;
+    color: #151517;
     text-align: left;
-    text-shadow: -0.5px 0 black, 0 0.5px black, 0.5px 0 black, 0 -0.5px black;
 }
 .right{
     display: flex;
     justify-content: left;
-    align-items: center;
+    align-items: flex-end;
+    text-align: end;
+    justify-self: end;
+    margin-right: 2em;
+
 }
 .right .register-but{
     font-size: 2em;
@@ -43,5 +49,39 @@
     padding: 0.5em 0.5em;
     border-radius: 1em;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.main-loggedin header{
+    text-align: center;
+    font-size: 2em;
+}
+
+.cards{
+    display: grid;
+    text-align: center;
+    grid-template-columns: 30% 30% 30%;
+    justify-content: space-evenly;
+
+}
+
+.left-card, .center-card, .right-card{
+    background-color: rgba(255, 255, 255, 0.6);
+    font-size: 22px;
+    border-radius: 1em;
+    padding: 2em;
+    min-height: 5em;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+
+}
+
+.left-card:hover, .center-card:hover, .right-card:hover{
+    background-color: rgba(160, 235, 231, 0.5);
+}
+
+#left-card, #center-card, #right-card{
+    text-decoration: none;
+    color: #151517 ;
 
 }
