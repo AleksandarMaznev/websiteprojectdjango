@@ -153,7 +153,7 @@ def post_book(request):
 
 
             book.save()
-
+            messages.success(request, 'You have posted your book successfully')
             return redirect('index')
     else:
         form = BookForm()
@@ -241,7 +241,7 @@ def delete_book(request, book_pk):
     book = Book.objects.get(pk=book_pk)
     author_name = book.author.username
     username = request.user.username
-    if (not request.user.is_staff) and username != author_name:
+    if (not request.user.is_superuser) and username != author_name:
         return redirect('access_denied')
     context = {
         'book': book,
@@ -256,6 +256,7 @@ def delete_book_confirm(request, book_pk):
         book.delete()
         os.remove(book.book_file.path)
         os.remove(book.cover.path)
+        messages.success(request, 'You have successfully deleted your book')
         return redirect('profile')
 
     return redirect('delete_book', book_pk=book_pk)
