@@ -58,7 +58,7 @@
                         <a href="{% url 'library_book' fav.id %}">
                             <h2>{{ fav.title }}</h2>
                         </a>
-                        <p><strong>Author:</strong> {{ fav.author.user.username }}</p>
+                        <p><a href="{% url 'profile_other' fav.author.id %}"><strong>Author:</strong> {{ fav.author.user.username }}</a></p>
                         <p><strong>Genre:</strong> {{ fav.genre }}</p>
                         <p><strong>Synopsis:</strong> {{ fav.synopsis }}</p>
                         <p><strong>Posted on:</strong> {{ fav.posted_on }}</p>

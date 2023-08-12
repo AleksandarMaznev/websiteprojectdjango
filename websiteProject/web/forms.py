@@ -98,3 +98,30 @@ class EditBookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['cover', 'book_file', 'synopsis']
+
+
+class StaffSuperuserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+    username = forms.CharField(required=True)
+    password1 = forms.CharField(required=True, label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(required=True, label='Confirm Password', widget=forms.PasswordInput)
+
+    user_type = forms.ChoiceField(choices=[('staff', 'Staff'), ('superuser', 'Superuser')])
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"]
+
+        if self.cleaned_data["user_type"] == "staff":
+            user.is_staff = True
+        elif self.cleaned_data["user_type"] == "superuser":
+            user.is_staff = True
+            user.is_superuser = True
+
+        if commit:
+            user.save()
+        return user

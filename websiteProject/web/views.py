@@ -1,4 +1,5 @@
 import os
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import logout, authenticate as auth_authenticate, get_user_model
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
@@ -12,7 +13,8 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from websiteProject.web.extract_text_from_docx import extract_text_from_docx
-from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm, CommentForm, EditCommentForm, EditBookForm
+from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm, CommentForm, EditCommentForm, EditBookForm, \
+    StaffSuperuserCreationForm
 from websiteProject.web.models import Profile, Book, Comment, Favorites
 
 UserModel = get_user_model()
@@ -339,3 +341,23 @@ def profile_other(request, profile_pk):
     }
 
     return render(request, 'web/profile_other.html', context)
+
+@staff_member_required
+def create_staff_superuser(request):
+    if request.method == 'POST':
+        form = StaffSuperuserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            profile = Profile.objects.create(
+                user=user,
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                is_staff=True,
+            )
+            messages.success(request, 'You have registered a new staff member')
+            return redirect('index')
+    else:
+        form = StaffSuperuserCreationForm()
+
+    context = {'form': form}
+    return render(request, 'web/create_staff_superuser.html', context)
