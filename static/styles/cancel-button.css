@@ -1,0 +1,56 @@
+.cancel-button{
+    text-align: center;
+    display: block;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+    background-color: #AFE2DE;
+    color: #151517;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+.cancel-button-2{
+    text-align: center;
+    display: block;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+    background-color: red;
+    color: #151517;
+    padding: 5px 10px;
+    border-radius: 4px;
+}
+
+#del-b{
+    background-color: red;
+    color: white;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 16px;
+
+}
+
+#log-in-b{
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+    background-color: #AFE2DE;
+    color: #151517;
+    padding: 10px 10px;
+    border-radius: 4px;
+}
+
+#create_submit{
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+    text-decoration: none;
+    background-color: #AFE2DE;
+    color: #151517;
+    padding: 10px 10px;
+    border-radius: 4px;
+}

@@ -4,19 +4,20 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/comments.css' %}">
     <meta charset="UTF-8">
     <title>Delete Book</title>
 </head>
 <body>
     {% include 'web/navbar.html' %}
-
-    <h1>Confirm Deletion</h1>
-    <p>Are you sure you want to delete the book "{{ book.title }}"?</p>
-    <form method="post" action="{% url 'delete_book_confirm' book.pk %}">
-        {% csrf_token %}
-        <button type="submit">Confirm Delete</button>
-        <a href="{% url 'profile' %}">Cancel</a>
-    </form>
-
+    <div class="comments-form">
+        <h1>Confirm Deletion</h1>
+        <p>Are you sure you want to delete the book "{{ book.title }}"?</p>
+        <form method="post" action="{% url 'delete_book_confirm' book.pk %}">
+            {% csrf_token %}
+            <button type="submit" id="del-b">Confirm Delete</button>
+            <a href="{% url 'profile' %}" class="cancel-button">Cancel</a>
+        </form>
+    </div>
 </body>
 </html>

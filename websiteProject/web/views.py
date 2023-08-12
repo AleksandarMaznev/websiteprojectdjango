@@ -12,7 +12,7 @@ from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from websiteProject.web.extract_text_from_docx import extract_text_from_docx
-from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm, CommentForm
+from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm, CommentForm, EditCommentForm, EditBookForm
 from websiteProject.web.models import Profile, Book, Comment, Favorites
 
 UserModel = get_user_model()
@@ -146,7 +146,7 @@ def post_book(request):
                 return render(request, 'web/post_book.html', {'form':form})
 
 
-            # book.save()
+            book.save()
 
             return redirect('index')
     else:
@@ -182,21 +182,59 @@ def comment(request, book_pk):
             'book': book,
             'comments': comments,
             'form': form,
-            'id': profile.id
+            'profile': profile
         }
         return render(request, 'web/comments.html', context)
 
 
 @login_required()
-def edit_book(request):  # todo class based view
-    return render(request, 'web/edit_book.html')
+def edit_comment(request, book_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    username = request.user.username
 
+    if comment.posted_by != Profile.objects.get(username=username) and not request.user.is_staff:
+        return redirect('access_denied')
+
+    if request.method == 'POST':
+        form = EditCommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('book_comment', args=[book_pk]))
+    else:
+        form = EditCommentForm(instance=comment)
+    context = {
+        'form': form,
+        'book_pk': book_pk,
+    }
+    return render(request, 'web/edit_comment.html', context)
+
+@login_required()
+def delete_comment(request, book_pk, comment_pk):
+    book= Book.objects.get(pk=book_pk)
+    username = request.user.username
+    comment = Comment.objects.get(id=comment_pk)
+    if comment.posted_by != Profile.objects.get(username=username)and not request.user.is_staff:
+        return redirect('access_denied')
+    context= {
+        'book':book,
+        'comment':comment,
+
+    }
+
+    return render(request, 'web/delete_comment.html', context)
+
+@login_required()
+def delete_comment_confirm(request, book_pk, comment_pk):
+    if request.method == 'POST':
+        comment = Comment.objects.get(pk=comment_pk)
+        comment.delete()
+        return redirect('book_comment', book_pk= book_pk)
 
 @login_required()
 def delete_book(request, book_pk):
-    username = request.user.username
     book = Book.objects.get(pk=book_pk)
     author_name = book.author.username
+    username = request.user.username
     if (not request.user.is_staff) and username != author_name:
         return redirect('access_denied')
     context = {
@@ -205,6 +243,7 @@ def delete_book(request, book_pk):
     return render(request, 'web/delete_book.html', context)
 
 
+@login_required()
 def delete_book_confirm(request, book_pk):
     if request.method == 'POST':
         book = Book.objects.get(pk=book_pk)
@@ -260,4 +299,43 @@ def remove_favorite(request, profile_id, book_id):
 
     favorite.delete()
     messages.success(request, 'Successfully removed book from favorites')
-    return  redirect('index')
+    return  redirect('profile')
+
+@login_required()
+def edit_book(request, book_pk):
+    book = Book.objects.get(pk=book_pk)
+    author_name = book.author.username
+    username = request.user.username
+    if (not request.user.is_staff) and username != author_name:
+        return redirect('access_denied')
+
+    if request.method == 'POST':
+        form = EditBookForm(request.POST, request.FILES, instance=book)
+        if form.is_valid():
+            form.save()
+            return redirect('library_book', book_pk=book.pk)
+    else:
+        form = EditBookForm(instance=book)
+
+    context = {
+        'form': form,
+        'book': book,
+    }
+    return render(request, 'web/edit_book.html', context)
+
+def profile_other(request, profile_pk):
+    other_user = Profile.objects.get(pk=profile_pk)
+    books = Book.objects.all().filter(author_id=other_user.id)
+    favorites = Favorites.objects.all().filter(user_id_id=other_user.id)
+    fav_books = []
+
+    for favorite in favorites:
+        fav_books.append(Book.objects.get(id=favorite.book_id_id))
+
+    context = {
+        'books': books,
+        'favs': fav_books,
+        'profile': other_user,
+    }
+
+    return render(request, 'web/profile_other.html', context)

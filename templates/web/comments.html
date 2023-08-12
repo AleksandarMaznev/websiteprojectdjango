@@ -18,7 +18,7 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" id="comment-submit">Create</button>
+            <button type="submit" id="comment-submit">Submit</button>
         </form>
         {% if comments %}
             {% for comment in  comments %}
@@ -26,8 +26,10 @@
                     <p class="comment-info">By: {{ comment.posted_by.username }} on {{ comment.posted_on }}</p>
                     <p>{{ comment.content }}</p>
 
-                    {% if id == comment.posted_by %}
-                        <a href="{% url 'edit_book' book.pk%}" class="comments-button">Edit</a>
+                    {% if comment.posted_by == profile or request.user.is_staff %}
+                        <a href="{% url 'edit_comment' book.pk comment.id%}" class="comments-button">Edit</a>
+                        <a href="{% url 'delete_comment' book.pk comment.id%}" class="comments-button-del">Delete</a>
+
                     {% else %}
                     {% endif %}
                 </div>

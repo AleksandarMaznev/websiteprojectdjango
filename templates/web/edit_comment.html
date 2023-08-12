@@ -1,0 +1,28 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/comments.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/txtarea-comments.css'%}">
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+{% include 'web/navbar.html' %}
+<div class="comments-form">
+  <h2>Edit Comment</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+  </form>
+  <a href="{% url 'book_comment' book_pk %}" class="cancel-button">Cancel</a>
+</div>
+</body>
+</html>

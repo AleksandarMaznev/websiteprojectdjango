@@ -1,0 +1,13 @@
+input::file-selector-button{
+    text-decoration: none;
+    background-color: #AFE2DE;
+    color: #151517;
+    padding: 10px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+#id_genre {
+display: block;
+margin: 0 auto;
+}

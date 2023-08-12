@@ -86,3 +86,15 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content', 'posted_on']
         exclude= ['posted_on']
+
+class EditCommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+
+class EditBookForm(forms.ModelForm):
+    cover = forms.FileField(widget=forms.FileInput)
+    book_file = forms.FileField(widget=forms.FileInput)
+    class Meta:
+        model = Book
+        fields = ['cover', 'book_file', 'synopsis']

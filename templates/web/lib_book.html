@@ -31,6 +31,10 @@
         <div class="book-buttons">
             <a href="{% url 'book_comment' book.pk%}" class="comments-button">Comments</a>
             <a href="{% url 'favorite' book.pk%}" class="favorite-button">Favorite</a>
+            {% if book.author.user == request.user or request.user.is_staff%}
+            <a href="{% url 'edit_book' book.pk%}" class="comments-button">Edit</a>
+            <a href="{% url 'delete_book' book.id %}" class="comments-button-del">Delete Book</a>
+            {% endif %}
         </div>
     </div>
 </body>

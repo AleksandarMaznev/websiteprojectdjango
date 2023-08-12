@@ -11,18 +11,17 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Profile view</title>
 </head>
 <body>
     {% include 'web/navbar.html' %}
-    {% include 'web/alert.html' %}
     <div class="user-welcome">
-        <h1>Welcome, {{ request.user.username }}!</h1>
+        <h1>Welcome to the profile of {{ profile.username }}!</h1>
     </div>
     <div class="all-stories">
         <div class="own-story">
             <h2>
-                My stories
+                Their stories
             </h2>
             <ul>
             {% if books %}
@@ -38,19 +37,16 @@
                                 <a href="{{ book.cover.url }}" target="_blank">
                                     <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
                                 </a>
-                            <span class="delete-button">
-                                <a href="{% url 'delete_book' book.id %}">Delete Book</a>
-                            </span>
                         </li>
                 {% endfor %}
             {% else %}
-                <p> You have not posted any books</p>
+                <p> They have not posted any books</p>
             {% endif %}
             </ul>
         </div>
         <div class="fav-story">
             <h2>
-                My favorites
+                Their favorites
             </h2>
             {% if favs %}
                 {% for fav in favs %}
@@ -65,17 +61,12 @@
                         <a href="{{ fav.cover.url }}" target="_blank">
                             <img src="{{ fav.cover.url }}" alt="Cover Image" width="200">
                         </a>
-                        <span class="delete-button">
-                            <a href="{% url 'remove_favorite' profile_id fav.id %}">Remove favorite</a>
-                        </span>
                     </li>
                 {% endfor %}
             {% else %}
-                <p> You have not favorited any books</p>
+                <p> They have not favorited any books</p>
             {% endif %}
         </div>
     </div>
-
-
 </body>
 </html>
