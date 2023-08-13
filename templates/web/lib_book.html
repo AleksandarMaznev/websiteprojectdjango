@@ -55,11 +55,11 @@
             </p>
         {% endfor %}
         <div class="book-buttons">
-            <a href="{% url 'book_comment' book.pk%}" class="comments-button">Comments</a>
-            <a href="{% url 'favorite' book.pk%}" class="favorite-button">Favorite</a>
+            <a href="{% url 'book_comment' book.pk%}" class="comments-button" style="text-decoration: none">Comments</a>
+            <a href="{% url 'favorite' book.pk%}" class="favorite-button" style="text-decoration: none">Favorite</a>
             {% if book.author.user == request.user or request.user.is_superuser%}
-            <a href="{% url 'edit_book' book.pk%}" class="comments-button">Edit</a>
-            <a href="{% url 'delete_book' book.id %}" class="comments-button-del">Delete Book</a>
+            <a href="{% url 'edit_book' book.pk%}" class="comments-button" style="text-decoration: none">Edit</a>
+            <a href="{% url 'delete_book' book.id %}" class="comments-button-del" style="text-decoration: none">Delete Book</a>
             {% endif %}
         </div>
     </div>

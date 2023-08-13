@@ -4,6 +4,9 @@
 <html lang="en">
 <head>
     {% include 'web/styles.html' %}
+    <link rel="stylesheet" href="{% static 'styles/rate.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -15,17 +18,24 @@
         <ul>
         {% for book in books %}
             <li class="book-box">
-                <a href="{% url 'library_book' book.pk %}">
+                <a href="{% url 'library_book' book.pk %}" style="text-decoration: none">
                     <h2>{{ book.title }}</h2>
                 </a>
-                    <p><a href="{% url 'profile_other' book.author.id %}"><strong>Author:</strong> {{ book.author.user.username }}</a></p>
+                <h5 class="card-title">Avg rating:
+                <span class="fa fa-star {% if book.average_rating > 0 %} checked {% endif %}"></span>
+                <span class="fa fa-star {% if book.average_rating > 1 %} checked {% endif %}"></span>
+                <span class="fa fa-star {% if book.average_rating > 2 %} checked {% endif %}"></span>
+                <span class="fa fa-star {% if book.average_rating > 3 %} checked {% endif %}" ></span>
+                <span class="fa fa-star {% if book.average_rating > 4 %} checked {% endif %}"></span>
+                </h5>
+                    <p><a href="{% url 'profile_other' book.author.id %}" style="text-decoration: none"><strong>Author:</strong> {{ book.author.user.username }}</a></p>
                     <p><strong>Genre:</strong> {{ book.genre }}</p>
                     <p><strong>Synopsis:</strong> {{ book.synopsis }}</p>
                     <p><strong>Posted on:</strong> {{ book.posted_on }}</p>
                 <a href="{{ book.cover.url }}" target="_blank"> <!-- Open image in new tab -->
                     <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
                 </a>                    <span class="download-button">
-                    <a href="{{ book.book_file.url }}" download>Download Book</a>
+                    <a href="{{ book.book_file.url }}" style="text-decoration: none" download>Download Book</a>
                     </span>
             </li>
         {% endfor %}

@@ -9,12 +9,12 @@
             </div>
         {% else %}
             <div class="topnav">
-                <a href="{% url 'index' %}" class="split">Library of User Content</a>
-                <a href="{% url 'logout' %}">Logout</a>
-                <a href="{% url 'library' %}">Library</a>
-                <a href="{% url 'profile' %}">Profile</a>
-                <a href="{% url 'post_book' %}">Post</a>
-                {% if request.user.is_superuser %}
+                <a href="{% url 'index' %}" class="split" style="text-decoration: none">Library of User Content</a>
+                <a href="{% url 'logout' %}" style="text-decoration: none">Logout</a>
+                <a href="{% url 'library' %}" style="text-decoration: none">Library</a>
+                <a href="{% url 'profile' %}" style="text-decoration: none">Profile</a>
+                <a href="{% url 'post_book' %}" style="text-decoration: none">Post</a>
+                {% if request.user.is_superuser  %}
                 <a href="{% url 'create_staff_superuser' %}" >Register Staff member</a>
                 {% endif %}
             </div>
