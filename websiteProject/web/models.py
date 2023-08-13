@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.db.models import Avg
+
 from websiteProject.web.custom_upload_files import upload_file
 from websiteProject.web.validators import TextAndNumsOnlyValidator
 from websiteProject.web.genres import genre_choices
@@ -80,6 +82,9 @@ class Book(models.Model):
     book_file = models.FileField(upload_to=upload_file)
     posted_on = models.DateTimeField(blank=True, null=True)
 
+    def average_rating(self) -> float:
+        return Rating.objects.filter(book=self).aggregate(avg=Avg("rate"))["avg"] or 0
+
 
 class Comment(models.Model):
     posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -92,4 +97,10 @@ class Favorites(models.Model):
     user_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
     favorited_on = models.DateTimeField(blank=True, null=True)
+
+
+class Rating(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    rate = models.IntegerField(default=0)
 

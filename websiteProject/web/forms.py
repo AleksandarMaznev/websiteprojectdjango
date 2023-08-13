@@ -25,21 +25,6 @@ class UserCreationForm(UserCreationForm):
             user.save()
         return user
 
-    # def clean(self):
-    #     super().clean()
-    #
-    #     # Check if the username is unique
-    #     if Profile.objects.filter(username=self.cleaned_data['username']).exists():
-    #         raise forms.ValidationError(
-    #             ['Username already exists. Please choose a different username.'])
-    #
-    #     # Check if the email is unique
-    #     if Profile.objects.filter(email=self.cleaned_data['email']).exists():
-    #         raise forms.ValidationError(
-    #             ['Email already exists. Please choose a different email address.'])
-    #
-    #     return self.cleaned_data
-
 
 class LoginForm(forms.Form):
     username = forms.CharField(

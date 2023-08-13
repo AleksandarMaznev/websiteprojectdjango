@@ -8,6 +8,7 @@ urlpatterns = [
     path('login', views.login_view, name='login'),
     path('library', views.LibraryView.as_view(), name='library'),
     path('library/book/<int:book_pk>', views.book, name='library_book'),
+    path('library/book/<int:book_pk>/<int:rating>', views.rate, name='book_rate'),
     path('profile', views.ProfileView.as_view(), name='profile'),
     path('profile/post', views.post_book, name="post_book"),
     path('profile/<int:profile_pk>', views.profile_other, name="profile_other"),

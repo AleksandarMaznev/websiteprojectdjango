@@ -15,7 +15,7 @@ from django.views.generic import ListView
 from websiteProject.web.extract_text_from_docx import extract_text_from_docx
 from websiteProject.web.forms import UserCreationForm, LoginForm, BookForm, CommentForm, EditCommentForm, EditBookForm, \
     StaffSuperuserCreationForm
-from websiteProject.web.models import Profile, Book, Comment, Favorites
+from websiteProject.web.models import Profile, Book, Comment, Favorites, Rating
 
 UserModel = get_user_model()
 
@@ -129,6 +129,7 @@ def login_view(request):
 def book(request, book_pk):
     book = Book.objects.get(pk=book_pk)
     book_text = extract_text_from_docx(book.book_file)
+    rating = Rating.objects.filter(book=book)
     return render(request, "web/lib_book.html", {'book_content': book_text, 'book': book})
 
 
@@ -369,3 +370,12 @@ def create_staff_superuser(request):
 
     context = {'form': form}
     return render(request, 'web/create_staff_superuser.html', context)
+
+@login_required()
+def rate(request, book_pk ,rating):
+    profile = Profile.objects.get(username=request.user.username)
+    book = Book.objects.get(id=book_pk)
+    Rating.objects.filter(book=book, profile=profile).delete()
+    Rating.objects.create(profile=profile, rate=rating, book=book)
+
+    return redirect('library_book', book_pk= book_pk)
