@@ -351,7 +351,7 @@ def profile_other(request, profile_pk):
 
     return render(request, 'web/profile_other.html', context)
 
-@staff_member_required
+@staff_member_required(login_url= 'access_denied')
 def create_staff_superuser(request):
     if request.method == 'POST':
         form = StaffSuperuserCreationForm(request.POST)
@@ -379,3 +379,5 @@ def rate(request, book_pk ,rating):
     Rating.objects.create(profile=profile, rate=rating, book=book)
 
     return redirect('library_book', book_pk= book_pk)
+
+
