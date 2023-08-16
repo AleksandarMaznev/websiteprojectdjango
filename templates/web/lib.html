@@ -32,11 +32,11 @@
                     <p><strong>Genre:</strong> {{ book.genre }}</p>
                     <p><strong>Synopsis:</strong> {{ book.synopsis }}</p>
                     <p><strong>Posted on:</strong> {{ book.posted_on }}</p>
-                <a href="{{ book.cover.url }}" target="_blank"> <!-- Open image in new tab -->
-                    <img src="{{ book.cover.url }}" alt="Cover Image" width="200">
-                </a>                    <span class="download-button">
+                <a href="{{ book.cover.url }}" target="_blank">
+                    <img src="{{ book.cover.url }}" alt="Cover Image" width="200"></a>
+                <span class="download-button">
                     <a href="{{ book.book_file.url }}" style="text-decoration: none" download>Download Book</a>
-                    </span>
+                </span>
             </li>
         {% endfor %}
     </ul>
