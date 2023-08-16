@@ -24,7 +24,7 @@
         {% if comments %}
             {% for comment in  comments %}
                 <div class="comment-box">
-                    <p class="comment-info">By: {{ comment.posted_by.username }} on {{ comment.posted_on }}</p>
+                    <p class="comment-info">By: <a href="{% url 'profile_other' comment.posted_by.id %}" style="text-decoration: none">{{ comment.posted_by.username }}</a> on {{ comment.posted_on }}</p>
                     <p>{{ comment.content }}</p>
 
                     {% if comment.posted_by == profile or request.user.is_staff %}
