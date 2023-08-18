@@ -1,11 +1,13 @@
 import unittest
-
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.test import TestCase, Client
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse
-
-from websiteProject.web.forms import CommentForm
-from websiteProject.web.models import Profile, Book, Comment
+from django.contrib.sessions.middleware import SessionMiddleware
+from websiteProject.web.views import register, login_view
+from websiteProject.web.forms import CommentForm, UserCreationForm, LoginForm
+from websiteProject.web.models import Profile, Book, Comment, Rating
 
 
 # Create your tests here.
@@ -60,15 +62,80 @@ class CommentViewTest(TestCase):
         self.assertContains(response, 'This story has no comments yet!')
 
 
+class UserCreationFormTest(TestCase):
+
+    def test_valid_form(self):
+        form_data = {
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password1': 'testpassword123',
+            'password2': 'testpassword123',
+        }
+        form = UserCreationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_blank_data(self):
+        form = UserCreationForm(data={})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 4)
+
+    def test_password_mismatch(self):
+        form_data = {
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password1': 'testpassword123',
+            'password2': 'mismatchedpassword',
+        }
+        form = UserCreationForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 1)
+        self.assertIn('password2', form.errors)
+
+    def test_save_method(self):
+        form_data = {
+            'username': 'testuser',
+            'email': 'test@example.com',
+            'password1': 'testpassword123',
+            'password2': 'testpassword123',
+        }
+        form = UserCreationForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        user = form.save()
+        self.assertEqual(user.username, 'testuser')
+        self.assertEqual(user.email, 'test@example.com')
+        self.assertTrue(User.objects.filter(username='testuser').exists())
 
 
+class LoginFormTest(TestCase):
+
+    def test_blank_login_form(self):
+        form = LoginForm(data={})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(len(form.errors), 3)
 
 
+class RatingModelTest(TestCase):
 
+    @classmethod
+    def setUpTestData(cls):
+        user = User.objects.create(username='testuser', id=1)
+        profile = Profile.objects.create(username='testuser', user_id=1, id=1)
+        book = Book.objects.create(title='Test Book', id=1, author_id= 1)
+        Rating.objects.create(profile=profile, book=book, rate=4)
 
+    def test_rating_creation(self):
+        rating = Rating.objects.get(id=1)
+        self.assertEqual(rating.profile.username, 'testuser')
+        self.assertEqual(rating.book.title, 'Test Book')
+        self.assertEqual(rating.rate, 4)
 
+    def test_default_rate_value(self):
+        rating = Rating.objects.get(id=1)
+        self.assertEqual(rating.rate, 4)
 
-
+    def test_str_representation(self):
+        rating = Rating.objects.get(id=1)
+        self.assertEqual(str(rating), f"{rating.profile.username} - {rating.book.title}: {rating.rate}")
 
 
 if __name__ == '__main__':

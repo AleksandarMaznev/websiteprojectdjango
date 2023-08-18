@@ -48,7 +48,6 @@ class LoginForm(forms.Form):
         cleaned_data = super().clean()
         username = cleaned_data.get("username")
         password = cleaned_data.get("password")
-        print(username + " " + password)
 
         user = auth_authenticate(username=username, password=password)
         print(user)

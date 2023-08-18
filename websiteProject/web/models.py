@@ -85,3 +85,5 @@ class Rating(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     rate = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f"{self.profile.username} - {self.book.title}: {self.rate}"
