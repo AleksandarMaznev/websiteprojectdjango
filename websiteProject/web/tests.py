@@ -60,5 +60,16 @@ class CommentViewTest(TestCase):
         self.assertContains(response, 'This story has no comments yet!')
 
 
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
     unittest.main()
