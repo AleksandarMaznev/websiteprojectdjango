@@ -1,11 +1,7 @@
 import unittest
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.contrib.messages.storage.fallback import FallbackStorage
-from django.test import TestCase, Client, RequestFactory
+from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.sessions.middleware import SessionMiddleware
-from websiteProject.web.views import register, login_view
 from websiteProject.web.forms import CommentForm, UserCreationForm, LoginForm
 from websiteProject.web.models import Profile, Book, Comment, Rating
 
