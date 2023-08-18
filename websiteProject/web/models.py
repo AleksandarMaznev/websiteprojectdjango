@@ -7,7 +7,7 @@ from websiteProject.web.custom_upload_files import upload_file
 from websiteProject.web.managers import CustomUserManager
 from websiteProject.web.validators import TextAndNumsOnlyValidator
 from websiteProject.web.genres import genre_choices
-from django.contrib.auth.models import AbstractBaseUser,
+from django.contrib.auth.models import AbstractBaseUser
 
 UserModel = get_user_model()
 
